@@ -20,7 +20,7 @@ app.post("/users/new", async (req: Request, res: Response ) => {
 });
 
 // Edit user
-app.put("/users/edit/:userId", async (req: Request, res: Response ) => {
+app.post("/users/edit/:userId", async (req: Request, res: Response ) => {
 	res.send("Edit user");
 });
 
