@@ -3,7 +3,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 
 import { prisma } from "./database";
-import { generateRandomPassword } from "./helpers";
+import { generateRandomPassword, isMissingKeys } from "./helpers";
 
 const Errors = {
   UsernameAlreadyTaken: 'UserNameAlreadyTaken',
@@ -27,6 +27,8 @@ app.use(express.json()); // To parse JSON bodies
 */
 app.use(cors());
 
+const userValidationKeys = ['email', 'username', 'firstName', 'lastName'];
+
 // Create user
 function parseUserForResponse(user: User) {
 	const { password, ...rest } = user;
@@ -37,7 +39,7 @@ app.post("/users/new", async (req: Request, res: Response ) => {
 	const { email, username, firstName, lastName } = req.body;
 
 	// Validate the input
-	if (!email || !username || !firstName || !lastName) {
+	if (isMissingKeys(req.body, userValidationKeys)) {
 		res.status(400).json({ error: Errors.ValidationError, data: undefined, success: false });
 		return
 	}
@@ -78,7 +80,7 @@ app.post("/users/edit/:userId", async (req: Request, res: Response ) => {
 		const { email, username, firstName, lastName } = req.body;
 
 		// Validate the input
-		if (!email || !username || !firstName || !lastName) {
+		if (isMissingKeys(req.body, userValidationKeys)) {
 			res.status(400).json({ error: Errors.ValidationError, data: undefined, success: false });
 			return;
 		}
