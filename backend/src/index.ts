@@ -109,6 +109,7 @@ app.post("/users/edit/:userId", async (req: Request, res: Response ) => {
 		const data = parseUserForResponse(user);
 		res.status(201).json({ error: undefined, data, success: true });
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ error: Errors.ServerError, data: undefined, success: false });
 	}	
 });
@@ -122,14 +123,20 @@ app.get("/users", async (req: Request, res: Response ) => {
 				email
 			}
 		});
-		res.status(200).json(user);
+		if (!user) {
+			res.status(404).json({ error: Errors.UserNotFound, data: undefined, success: false });
+			return;
+		}
+
+		const data = parseUserForResponse(user);
+		res.status(200).json({ error: undefined, data, success: true });
 	} catch (error) {
-		res.status(400).json({ error: "Something went wrong" });
+		console.log(error);
+		res.status(500).json({ error: Errors.ServerError, data: undefined, success: false });
 	}
 });
 
 const port = process.env.PORT ?? 3000;
-
 app.listen(port, () => {
 	console.log(`Server running at http://localhost:${port}`);
 });
