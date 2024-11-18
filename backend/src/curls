@@ -5,8 +5,8 @@ curl -X POST -H "Content-Type: application/json" -d '{
 "firstName": "John",
 "lastName": "Doe",
 "username": "johndoe2"
-}' <http://localhost:3000/users/new>
+}' http://localhost:3000/users/new
 
 // 2. Verify the user was created
 
-curl <http://localhost:3000/users?email=example@example.com>
+curl http://localhost:3000/users?email=example@example.com
