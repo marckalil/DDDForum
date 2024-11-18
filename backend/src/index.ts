@@ -1,6 +1,19 @@
+import { User } from "@prisma/client";
 import express, { Request, Response } from "express";
 import cors from "cors";
+
 import { prisma } from "./database";
+import { generateRandomPassword } from "./helpers";
+
+const Errors = {
+  UsernameAlreadyTaken: 'UserNameAlreadyTaken',
+  EmailAlreadyInUse: 'EmailAlreadyInUse',
+  ValidationError: 'ValidationError',
+  ServerError: 'ServerError',
+  ClientError: 'ClientError',
+  UserNotFound: 'UserNotFound'
+} as const;
+
 const app = express();
 app.use(express.json()); // To parse JSON bodies
 /*
@@ -15,22 +28,46 @@ app.use(express.json()); // To parse JSON bodies
 app.use(cors());
 
 // Create user
+function parseUserForResponse(user: User) {
+	const { password, ...rest } = user;
+	return rest;
+}
 app.post("/users/new", async (req: Request, res: Response ) => {
 	try {
-	const { email, username, firstName, lastName, password } = req.body;
+	const { email, username, firstName, lastName } = req.body;
+
+	// Validate the input
+	if (!email || !username || !firstName || !lastName) {
+		res.status(400).json({ error: Errors.ValidationError, data: undefined, success: false });
+		return
+	}
+
+	// Check if the user exists
+	const existingUserByUsername = await prisma.user.findFirst({ where: { username } });
+	if (existingUserByUsername) {
+		res.status(409).json({ error: Errors.UsernameAlreadyTaken, data: undefined, success: false });
+		return;
+	}
+	const existingUserByEmail = await prisma.user.findFirst({ where: { email } });
+	if (existingUserByEmail) {
+		res.status(409).json({ error: Errors.EmailAlreadyInUse, data: undefined, success: false });
+		return;
+	}
+
 	const user = await prisma.user.create({
 		data: {
 			email,
 			username,
 			firstName,
 			lastName,
-			password
+			password: generateRandomPassword(10)
 		}
-		
 	});
-	res.status(201).json(user.id);
+	const data = parseUserForResponse(user);
+	res.status(201).json({ error: undefined, data, success: true });
 	} catch (error) {
-		res.status(400).json({ error: "Something went wrong" });
+		console.log(error);
+		res.status(500).json({ error: "ServerError", data: undefined, success: false });
 	}
 });
 
