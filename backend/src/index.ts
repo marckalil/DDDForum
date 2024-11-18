@@ -88,7 +88,7 @@ app.post("/users/edit/:userId", async (req: Request, res: Response ) => {
 			res.status(409).json({ error: Errors.UsernameAlreadyTaken, data: undefined, success: false });
 			return;
 		}
-		
+
 		const existingEmail = await prisma.user.findFirst({ where: { email } });
 		if (existingEmail) {
 			res.status(409).json({ error: Errors.EmailAlreadyInUse, data: undefined, success: false });
@@ -106,7 +106,8 @@ app.post("/users/edit/:userId", async (req: Request, res: Response ) => {
 				lastName
 			}
 		});
-		res.status(201).json({ error: undefined, data: user, success: true });
+		const data = parseUserForResponse(user);
+		res.status(201).json({ error: undefined, data, success: true });
 	} catch (error) {
 		res.status(500).json({ error: Errors.ServerError, data: undefined, success: false });
 	}	
