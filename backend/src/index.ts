@@ -67,7 +67,7 @@ app.post("/users/new", async (req: Request, res: Response ) => {
 	res.status(201).json({ error: undefined, data, success: true });
 	} catch (error) {
 		console.log(error);
-		res.status(500).json({ error: "ServerError", data: undefined, success: false });
+		res.status(500).json({ error: Errors.ServerError, data: undefined, success: false });
 	}
 });
 
@@ -76,6 +76,25 @@ app.post("/users/edit/:userId", async (req: Request, res: Response ) => {
 	try {
 		const { userId } = req.params;
 		const { email, username, firstName, lastName } = req.body;
+
+		// Validate the input
+		if (!email || !username || !firstName || !lastName) {
+			res.status(400).json({ error: Errors.ValidationError, data: undefined, success: false });
+			return;
+		}
+
+		const existingUsername = await prisma.user.findFirst({ where: { username } });
+		if (existingUsername) {
+			res.status(409).json({ error: Errors.UsernameAlreadyTaken, data: undefined, success: false });
+			return;
+		}
+		
+		const existingEmail = await prisma.user.findFirst({ where: { email } });
+		if (existingEmail) {
+			res.status(409).json({ error: Errors.EmailAlreadyInUse, data: undefined, success: false });
+			return;
+		}
+
 		const user = await prisma.user.update({
 			where: {
 				id: parseInt(userId)
@@ -87,9 +106,9 @@ app.post("/users/edit/:userId", async (req: Request, res: Response ) => {
 				lastName
 			}
 		});
-		res.status(200).json(user);
+		res.status(201).json({ error: undefined, data: user, success: true });
 	} catch (error) {
-		res.status(400).json({ error: "Something went wrong" });
+		res.status(500).json({ error: Errors.ServerError, data: undefined, success: false });
 	}	
 });
 
