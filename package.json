@@ -1,15 +1,33 @@
 {
-	"name": "ddd-forum",
-	"private": true,
-	"workspaces": [
-		"frontend",
-		"backend"
-	],
-	"scripts": {
-		"frontend": "pnpm --filter frontend",
-		"backend": "pnpm --filter backend",
-		"dev": "pnpm -r dev",
-		"build": "pnpm -r build",
-		"lint": "pnpm -r lint"
-	}
+  "name": "ddd-forum",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "frontend": "pnpm --filter frontend",
+    "backend": "pnpm --filter backend",
+    "dev": "pnpm -r dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "lint:fix": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@typescript-eslint/eslint-plugin": "^8.16.0",
+    "@typescript-eslint/parser": "^8.16.0",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "globals": "^15.12.0",
+    "prettier": "^3.4.1",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "typescript-eslint": "^8.16.0"
+  }
 }
