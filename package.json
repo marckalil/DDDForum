@@ -1,0 +1,15 @@
+{
+	"name": "ddd-forum",
+	"private": true,
+	"workspaces": [
+		"frontend",
+		"backend"
+	],
+	"scripts": {
+		"frontend": "pnpm --filter frontend",
+		"backend": "pnpm --filter backend",
+		"dev": "pnpm -r dev",
+		"build": "pnpm -r build",
+		"lint": "pnpm -r lint"
+	}
+}
