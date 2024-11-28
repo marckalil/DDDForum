@@ -8,6 +8,9 @@ import pluginUnusedImports from 'eslint-plugin-unused-imports';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
+  pluginReact.configs.flat.recommended,
   {
     ignores: [
       '**/node_modules/**',
@@ -100,8 +103,5 @@ export default [
         { extensions: ['.tsx', '.jsx'] }
       ]
     }
-  },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended
+  }
 ];
