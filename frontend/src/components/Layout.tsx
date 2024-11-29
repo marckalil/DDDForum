@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20
   },
   webContainer: {
-    width: 900,
+    width: 1024,
     alignSelf: 'center'
   }
 });
