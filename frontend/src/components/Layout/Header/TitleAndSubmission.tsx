@@ -1,5 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native';
-import { Link } from 'expo-router';
+
+import { Link } from '@/src/components/Link';
 
 export function TitleAndSubmission() {
   return (
@@ -8,7 +9,7 @@ export function TitleAndSubmission() {
       <Text style={styles.h3}>
         Where awesome domain driven designers are made
       </Text>
-      <Link href="/submit" style={styles.link}>
+      <Link href="/" style={styles.link}>
         submit
       </Link>
     </View>
@@ -27,7 +28,6 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   link: {
-    marginTop: 4,
-    textDecorationLine: 'underline'
+    marginTop: 4
   }
 });
