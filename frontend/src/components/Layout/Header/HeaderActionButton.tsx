@@ -1,12 +1,11 @@
 import { View, Text } from 'react-native';
 
 import { Link } from '@/src/components/Link';
-
-import type { User } from '@/types';
+import type { User } from '@/src/types';
 
 function JoinButton() {
   return (
-    <Link href="/join" linkType="button">
+    <Link href="/sign-up" linkType="button">
       Join
     </Link>
   );

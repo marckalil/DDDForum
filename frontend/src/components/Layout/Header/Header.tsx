@@ -8,7 +8,7 @@ import { TitleAndSubmission } from './TitleAndSubmission';
 import { isWeb } from '@/src/helpers';
 
 const shouldShowActionButton = (pathName: string) => {
-  return pathName !== '/join';
+  return pathName !== '/sign-up';
 };
 
 export function Header() {
@@ -19,7 +19,8 @@ export function Header() {
       {isWeb && <Logo />}
       <TitleAndSubmission />
       {shouldShowActionButton(pathName) && (
-        <HeaderActionButton user={{ username: '@John' }} />
+        // <HeaderActionButton user={{ username: '@John' }} />
+        <HeaderActionButton />
       )}
     </View>
   );
