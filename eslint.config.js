@@ -52,7 +52,17 @@ export default [
     },
     rules: {
       // Import rules
-      'import/extensions': ['error', 'never'],
+      'import/extensions': [
+        'error',
+        'never',
+        {
+          png: 'always',
+          jpg: 'always',
+          jpeg: 'always',
+          gif: 'always',
+          svg: 'always'
+        }
+      ],
       'import/order': [
         'error',
         {
