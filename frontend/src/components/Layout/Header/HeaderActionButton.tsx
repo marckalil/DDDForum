@@ -20,7 +20,7 @@ function UserAndLogout({ user }: { user: User }) {
   );
 }
 
-export function HeaderActionButton({ user }: { user?: User }) {
-  if (user === undefined) return <JoinButton />;
+export function HeaderActionButton({ user }: { user: User | null }) {
+  if (user === null) return <JoinButton />;
   return <UserAndLogout user={user} />;
 }

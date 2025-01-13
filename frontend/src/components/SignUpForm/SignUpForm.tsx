@@ -6,13 +6,10 @@ import { TextInput } from '../TextInput';
 import { Link } from '../Link';
 import { Button } from '../Button';
 
+import { User } from '@/src/types';
+
 type SignUpFormProps = {
-  onSubmit: (data: {
-    email: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-  }) => void;
+  onSubmit: (user: User) => void;
 };
 
 export function SignUpForm({ onSubmit }: SignUpFormProps) {
@@ -28,7 +25,12 @@ export function SignUpForm({ onSubmit }: SignUpFormProps) {
   return (
     <View style={styles.container}>
       <Text>Create Account</Text>
-      <TextInput onChangeText={setEmail} placeholder="Email" value={email} />
+      <TextInput
+        onChangeText={setEmail}
+        placeholder="Email"
+        value={email}
+        keyboardType="email-address"
+      />
       <TextInput
         onChangeText={setUsername}
         placeholder="Username"

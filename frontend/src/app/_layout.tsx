@@ -4,18 +4,22 @@ import { StyleSheet, View } from 'react-native';
 
 import { isWeb } from '../helpers';
 
+import { UserProvider } from '@/src/contexts';
+
 export default function RootLayout() {
   const pathName = usePathname();
   const headerShown: boolean = !isWeb && pathName !== '/';
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.safeAreaView}>
-        <Stack
-          screenOptions={{ headerShown, contentStyle: styles.container }}
-        />
-      </SafeAreaView>
-    </View>
+    <UserProvider>
+      <View style={styles.container}>
+        <SafeAreaView style={styles.safeAreaView}>
+          <Stack
+            screenOptions={{ headerShown, contentStyle: styles.container }}
+          />
+        </SafeAreaView>
+      </View>
+    </UserProvider>
   );
 }
 

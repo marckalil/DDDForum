@@ -6,6 +6,7 @@ import { Logo } from './Logo';
 import { TitleAndSubmission } from './TitleAndSubmission';
 
 import { isWeb } from '@/src/helpers';
+import { useUserContext } from '@/src/contexts';
 
 const shouldShowActionButton = (pathName: string) => {
   return pathName !== '/sign-up';
@@ -13,15 +14,13 @@ const shouldShowActionButton = (pathName: string) => {
 
 export function Header() {
   const pathName = usePathname();
+  const { user } = useUserContext();
 
   return (
     <View style={styles.header}>
       {isWeb && <Logo />}
       <TitleAndSubmission />
-      {shouldShowActionButton(pathName) && (
-        // <HeaderActionButton user={{ username: '@John' }} />
-        <HeaderActionButton />
-      )}
+      {shouldShowActionButton(pathName) && <HeaderActionButton user={user} />}
     </View>
   );
 }
