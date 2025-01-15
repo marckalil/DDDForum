@@ -27,6 +27,6 @@ export const api = {
           // Something else happened
           console.error('Error:', err.message);
         }
-        throw err;
+        throw new Error(err);
       })
 };

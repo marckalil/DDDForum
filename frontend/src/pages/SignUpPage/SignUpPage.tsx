@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Toast } from 'toastify-react-native';
 
 import { Layout } from '@/src/components';
 import { SignUpForm, SignUpFormInput } from '@/src/components/SignUpForm';
@@ -9,6 +10,14 @@ import { isWeb } from '@/src/helpers';
 import { useUserContext } from '@/src/contexts';
 import { User } from '@/src/types';
 import { api } from '@/src/services';
+
+function showSuccessToast() {
+  Toast.success('Signup successful!', 'top');
+}
+
+function showErrorToast() {
+  Toast.error('Signup failed!');
+}
 
 export function SignUpPage() {
   const router = useRouter();
@@ -18,13 +27,9 @@ export function SignUpPage() {
   const onSubmitForm = async (signUpFormInput: SignUpFormInput) => {
     setLoading(true);
     try {
-      // Make API call
       const user: User = await api.signup(signUpFormInput);
-      // Save the user details to the cache
       setUser(user);
-      // Show the toast
-
-      // In 3 seconds, redirect to the main page
+      showSuccessToast();
       if (router.canGoBack()) {
         const signupTimeOut = setTimeout(() => {
           router.back();
@@ -32,12 +37,10 @@ export function SignUpPage() {
         }, 3000);
         return () => clearTimeout(signupTimeOut);
       }
-    } catch (err) {
-      console.error(err);
-      // If the call failed
-      // Stop the spinner
+    } catch (error) {
+      console.error(error);
       setLoading(false);
-      // Show the toast (for unknown error)
+      showErrorToast();
     }
   };
 

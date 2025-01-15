@@ -1,6 +1,7 @@
 import { Stack, usePathname } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet, View } from 'react-native';
+import ToastManager from 'toastify-react-native';
 
 import { isWeb } from '../helpers';
 
@@ -19,6 +20,14 @@ export default function RootLayout() {
           />
         </SafeAreaView>
       </View>
+      <ToastManager
+        position="top"
+        positionValue={8}
+        width="auto"
+        height="auto"
+        style={{ padding: 12 }}
+        textStyle={{ fontSize: 16, fontWeight: 'bold' }}
+      />
     </UserProvider>
   );
 }
