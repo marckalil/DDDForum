@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { User } from '../types';
-import { SignUpFormInput } from '../pages/SignUpPage';
+import { User } from '@/src/types';
+import { SignUpFormInput } from '@/src/components/SignUpForm';
 
 // const baseURL = process.env.API_HOST_URL;
 const baseURL = 'http://localhost:3000';
