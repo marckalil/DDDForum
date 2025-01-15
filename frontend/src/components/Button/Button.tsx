@@ -1,13 +1,28 @@
-import { Pressable, PressableProps, StyleSheet, Text } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  PressableProps,
+  StyleSheet,
+  Text
+} from 'react-native';
 
 type ButtonProps = PressableProps & {
   label: string;
+  loading?: boolean;
 };
 
-export function Button({ label, ...pressableProps }: ButtonProps) {
+export function Button({
+  label,
+  loading = false,
+  ...pressableProps
+}: ButtonProps) {
   return (
-    <Pressable style={styles.container} {...pressableProps}>
-      <Text style={styles.label}>{label}</Text>
+    <Pressable style={styles.container} {...pressableProps} disabled={loading}>
+      {loading ? (
+        <ActivityIndicator color="#fff" />
+      ) : (
+        <Text style={styles.label}>{label}</Text>
+      )}
     </Pressable>
   );
 }

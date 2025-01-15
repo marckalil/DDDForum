@@ -6,13 +6,19 @@ import { TextInput } from '../TextInput';
 import { Link } from '../Link';
 import { Button } from '../Button';
 
-import { User } from '@/src/types';
-
-type SignUpFormProps = {
-  onSubmit: (user: User) => void;
+export type SignUpFormInput = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  username: string;
 };
 
-export function SignUpForm({ onSubmit }: SignUpFormProps) {
+type SignUpFormProps = {
+  loading: boolean;
+  onSubmit: (user: SignUpFormInput) => void;
+};
+
+export function SignUpForm({ loading, onSubmit }: SignUpFormProps) {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -50,7 +56,7 @@ export function SignUpForm({ onSubmit }: SignUpFormProps) {
         <Text>Already have an account?</Text>
         <Link href="/">Login</Link>
       </View>
-      <Button label="Submit" onPress={onSubmitForm} />
+      <Button label="Submit" loading={loading} onPress={onSubmitForm} />
     </View>
   );
 }
