@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { StyleSheet, Text, View } from 'react-native';
+import { Toast } from 'toastify-react-native';
 
 import { TextInput } from '../TextInput';
 import { Link } from '../Link';
@@ -18,6 +19,21 @@ type SignUpFormProps = {
   onSubmit: (user: SignUpFormInput) => void;
 };
 
+type SignupFormValidation = {
+  errorMessage: string;
+  success: boolean;
+};
+function validateForm(formInput: SignUpFormInput): SignupFormValidation {
+  const { email, firstName, lastName, username } = formInput;
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  if (!emailRegex.test(email))
+    return { errorMessage: 'Invalid email', success: false };
+  if (!username) return { errorMessage: 'Invalid username', success: false };
+  if (!firstName) return { errorMessage: 'Invalid first name', success: false };
+  if (!lastName) return { errorMessage: 'Invalid last name', success: false };
+  return { errorMessage: '', success: true };
+}
+
 export function SignUpForm({ loading, onSubmit }: SignUpFormProps) {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -25,7 +41,10 @@ export function SignUpForm({ loading, onSubmit }: SignUpFormProps) {
   const [lastName, setLastName] = useState('');
 
   const onSubmitForm = () => {
-    onSubmit({ email, username, firstName, lastName });
+    const formInput: SignUpFormInput = { email, firstName, lastName, username };
+    const { success, errorMessage } = validateForm(formInput);
+    if (success) onSubmit({ email, username, firstName, lastName });
+    else Toast.error(errorMessage);
   };
 
   return (
