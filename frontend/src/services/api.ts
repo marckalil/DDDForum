@@ -3,9 +3,7 @@ import axios from 'axios';
 import { User } from '@/src/types';
 import { SignUpFormInput } from '@/src/components/SignUpForm';
 
-// const baseURL = process.env.API_HOST_URL;
 const baseURL = 'http://localhost:3000';
-console.log('baseURL ', baseURL);
 
 export const api = {
   signup: async (user: SignUpFormInput): Promise<User> =>
