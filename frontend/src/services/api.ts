@@ -27,7 +27,7 @@ export const api = {
         }
         throw new Error(err);
       }),
-  getAllPosts: async (): Promise<Post[]> =>
+  getPosts: async (): Promise<Post[]> =>
     axios
       .get(`${baseURL}/posts?sort=recent`)
       .then((res) => {

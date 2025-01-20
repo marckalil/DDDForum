@@ -12,7 +12,7 @@ export function MainPage() {
     async function fetchAllPosts() {
       setLoadingPosts(true);
       try {
-        const fetchedPosts = await api.getAllPosts();
+        const fetchedPosts = await api.getPosts();
         setPosts(fetchedPosts);
       } catch (error) {
         console.error(error);
