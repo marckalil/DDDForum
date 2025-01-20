@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf ./build && tsc",
+    "database:seed": "ts-node ./prisma/seed.ts",
     "start:dev": "npx nodemon",
     "start": "npm run build && node build/index.js",
     "test": "jest",

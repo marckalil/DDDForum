@@ -25,5 +25,5 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["Pressable", "tseslint"]
+  "cSpell.words": ["autoincrement", "Pressable", "tseslint"]
 }

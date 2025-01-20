@@ -72,14 +72,18 @@ app.post('/users/new', async (req: Request, res: Response) => {
       return;
     }
 
-    const user = await prisma.user.create({
-      data: {
-        email,
-        username,
-        firstName,
-        lastName,
-        password: generateRandomPassword(10)
-      }
+    const { user, member } = await prisma.$transaction(async (tx) => {
+      const user = await prisma.user.create({
+        data: {
+          email,
+          username,
+          firstName,
+          lastName,
+          password: generateRandomPassword(10)
+        }
+      });
+      const member = await prisma.member.create({ data: { userId: user.id } });
+      return { user, member };
     });
     const data = parseUserForResponse(user);
     res.status(201).json({ error: undefined, data, success: true });
@@ -168,6 +172,31 @@ app.get('/users', async (req: Request, res: Response) => {
 
     const data = parseUserForResponse(user);
     res.status(200).json({ error: undefined, data, success: true });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: Errors.ServerError, data: undefined, success: false });
+  }
+});
+
+// Get all posts: /posts?sort=recent
+app.get('/posts', async (req: Request, res: Response) => {
+  try {
+    const sort = req.query.sort as string;
+    const posts = await prisma.post.findMany({
+      orderBy: { dateCreated: sort === 'recent' ? 'desc' : 'asc' },
+      include: {
+        votes: true,
+        comments: true,
+        memberPostedBy: {
+          include: {
+            user: true
+          }
+        }
+      }
+    });
+    res.status(200).json({ error: undefined, data: { posts }, success: true });
   } catch (error) {
     console.log(error);
     res
